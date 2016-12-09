@@ -4,25 +4,25 @@ import "fmt"
 
 // LinkedList ...
 type LinkedList struct {
-	Length int
-	Head   *node
+	length int
+	head   *Node
 }
 
-// LinkedList node
-type node struct {
+// Node ...
+type Node struct {
 	Element interface{}
-	Next    *node
+	Next    *Node
 }
 
 // Append add element to LinkedList
 func (l *LinkedList) Append(element interface{}) {
-	n := node{}
+	n := Node{}
 	n.Element = element
 
-	if l.Head == nil {
-		l.Head = &n
+	if l.head == nil {
+		l.head = &n
 	} else {
-		current := l.Head
+		current := l.head
 		for {
 			if current.Next == nil {
 				current.Next = &n
@@ -31,20 +31,20 @@ func (l *LinkedList) Append(element interface{}) {
 			current = current.Next
 		}
 	}
-	l.Length++
+	l.length++
 }
 
 // Insert element at position
 func (l *LinkedList) Insert(position int, element interface{}) {
-	if position >= 0 && position <= l.Length {
-		n := node{}
+	if position >= 0 && position <= l.length {
+		n := Node{}
 		n.Element = element
-		current := l.Head
+		current := l.head
 		index := 0
 
 		if position == index {
 			n.Next = current
-			l.Head = &n
+			l.head = &n
 		} else {
 			for {
 				if current.Next == nil {
@@ -53,16 +53,16 @@ func (l *LinkedList) Insert(position int, element interface{}) {
 				current = current.Next
 			}
 		}
-		l.Length++
+		l.length++
 	}
 }
 
 //Remove remove element
 func (l *LinkedList) Remove(element interface{}) {
-	current := l.Head
-	if l.Head.Element == element {
-		l.Head = l.Head.Next
-		l.Length--
+	current := l.head
+	if l.head.Element == element {
+		l.head = l.head.Next
+		l.length--
 	}
 	for {
 		if current.Next == nil {
@@ -70,7 +70,7 @@ func (l *LinkedList) Remove(element interface{}) {
 		}
 		if current.Next.Element == element {
 			current.Next = current.Next.Next
-			l.Length--
+			l.length--
 		}
 		current = current.Next
 	}
@@ -78,15 +78,15 @@ func (l *LinkedList) Remove(element interface{}) {
 
 // RemoveAt remove at position
 func (l *LinkedList) RemoveAt(position int) {
-	if position >= 0 && position < l.Length {
-		current := l.Head
+	if position >= 0 && position < l.length {
+		current := l.head
 		index := 0
 		for {
 			if position == index {
 				current = current.Next
-				l.Length--
+				l.length--
 				if index == 0 {
-					l.Head = current
+					l.head = current
 				}
 			}
 			if current.Next == nil {
@@ -100,7 +100,7 @@ func (l *LinkedList) RemoveAt(position int) {
 
 //IndexOf ...
 func (l *LinkedList) IndexOf(element interface{}) int {
-	current := l.Head
+	current := l.head
 	index := 0
 	for {
 		if current.Element == element {
@@ -115,12 +115,22 @@ func (l *LinkedList) IndexOf(element interface{}) int {
 
 // IsEmpty ...
 func (l *LinkedList) IsEmpty() bool {
-	return l.Head == nil
+	return l.length == 0
 }
 
 // Size ...
 func (l *LinkedList) Size() int {
-	return l.Length
+	return l.length
+}
+
+// Length ...
+func (l *LinkedList) Length() int {
+	return l.length
+}
+
+// Head ...
+func (l *LinkedList) Head() Node {
+	return *l.head
 }
 
 // Print print LinkedList

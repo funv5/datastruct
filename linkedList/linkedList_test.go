@@ -8,26 +8,26 @@ func TestLinkedList(t *testing.T) {
 	l := LinkedList{}
 	l.Append("99")
 
-	if l.Length != 1 || l.Head.Element != "99" {
+	if l.Length() != 1 || l.Head().Element != "99" {
 		l.Print()
 		t.Error("error at Append")
 	}
 
 	l.Insert(0, "88")
 
-	if l.Head.Element != "88" || l.Head.Next.Element != "99" {
+	if l.Head().Element != "88" || l.Head().Next.Element != "99" {
 		l.Print()
 		t.Error("error at Insert")
 	}
 
 	l.Remove("88")
-	if l.Head.Element != "99" {
+	if l.Head().Element != "99" {
 		l.Print()
 		t.Error("error at Remove")
 	}
 
 	l.Remove("99")
-	if l.Length != 0 {
+	if l.Length() != 0 {
 		l.Print()
 		t.Error("error at Remove All")
 	}
@@ -37,7 +37,7 @@ func TestLinkedList(t *testing.T) {
 
 	l.RemoveAt(0)
 
-	if l.Head.Element != "88" || l.Length != 1 {
+	if l.Head().Element != "88" || l.Length() != 1 {
 		l.Print()
 		t.Error("error at RemoveAt")
 	}
