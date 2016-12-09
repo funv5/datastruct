@@ -1,8 +1,6 @@
 package linkedList
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // LinkedList ...
 type LinkedList struct {
@@ -37,7 +35,7 @@ func (l *LinkedList) Append(element interface{}) {
 }
 
 // Insert element at position
-func (l *LinkedList) Insert(position int, element interface{}) error {
+func (l *LinkedList) Insert(position int, element interface{}) {
 	if position >= 0 && position <= l.Length {
 		n := node{}
 		n.Element = element
@@ -55,21 +53,74 @@ func (l *LinkedList) Insert(position int, element interface{}) error {
 				current = current.Next
 			}
 		}
-
 		l.Length++
 	}
 }
 
 //Remove remove element
 func (l *LinkedList) Remove(element interface{}) {
+	current := l.Head
+	if l.Head.Element == element {
+		l.Head = l.Head.Next
+		l.Length--
+	}
 	for {
-
+		if current.Next == nil {
+			break
+		}
+		if current.Next.Element == element {
+			current.Next = current.Next.Next
+			l.Length--
+		}
+		current = current.Next
 	}
 }
 
 // RemoveAt remove at position
-func (l *LinkedList) RemoveAt(position int) error {
+func (l *LinkedList) RemoveAt(position int) {
+	if position >= 0 && position < l.Length {
+		current := l.Head
+		index := 0
+		for {
+			if position == index {
+				current = current.Next
+				l.Length--
+				if index == 0 {
+					l.Head = current
+				}
+			}
+			if current.Next == nil {
+				break
+			}
+			index++
+			current = current.Next
+		}
+	}
+}
 
+//IndexOf ...
+func (l *LinkedList) IndexOf(element interface{}) int {
+	current := l.Head
+	index := 0
+	for {
+		if current.Element == element {
+			return index
+		}
+		if current.Next == nil {
+			return -1
+		}
+		current = current.Next
+	}
+}
+
+// IsEmpty ...
+func (l *LinkedList) IsEmpty() bool {
+	return l.Head == nil
+}
+
+// Size ...
+func (l *LinkedList) Size() int {
+	return l.Length
 }
 
 // Print print LinkedList
