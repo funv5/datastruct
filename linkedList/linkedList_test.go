@@ -20,7 +20,10 @@ func TestLinkedList(t *testing.T) {
 		t.Error("error at Insert")
 	}
 
-	l.Remove("88")
+	if l.Remove("88") != 0 {
+		l.Print()
+		t.Error("error at Remove 88")
+	}
 	if l.Head().Element != "99" {
 		l.Print()
 		t.Error("error at Remove")

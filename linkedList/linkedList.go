@@ -58,22 +58,27 @@ func (l *LinkedList) Insert(position int, element interface{}) {
 }
 
 //Remove remove element
-func (l *LinkedList) Remove(element interface{}) {
+func (l *LinkedList) Remove(element interface{}) int {
 	current := l.head
-	if l.head.Element == element {
-		l.head = l.head.Next
-		l.length--
-	}
+	var previous *Node
+	index := 0
 	for {
+		if current.Element == element {
+			previous = current.Next
+			l.length--
+			if index == 0 {
+				l.head = previous
+			}
+			break
+		}
 		if current.Next == nil {
 			break
 		}
-		if current.Next.Element == element {
-			current.Next = current.Next.Next
-			l.length--
-		}
+		previous = current
 		current = current.Next
+		index++
 	}
+	return index
 }
 
 // RemoveAt remove at position
