@@ -79,9 +79,30 @@ func TestRemoveAt(t *testing.T) {
 	if element0 != 100 {
 		t.Errorf("remove  index %d is not  Element %d 's\n", 0, element0)
 	}
-	l.Remove(100)
+	element1 := l.RemoveAt(1)
+	if element1 != 88 {
+		t.Errorf("remove  index %d is not  Element %d 's\n", 1, element1)
+	}
+	element2 := l.RemoveAt(2)
+	if element2 != nil {
+		t.Errorf("remove not exists index is not Element %d 's\n", element2)
+	}
 
-	if l.Head().Element != "99" {
-		t.Errorf("index %d Element is %s \n", 0, l.Head().Element)
+}
+
+func TestIndexOf(t *testing.T) {
+	l := LinkedList{}
+
+	l.Insert(0, "99")
+	l.Insert(1, 88)
+	l.Insert(0, 100)
+
+	index0 := l.IndexOf(100)
+	if index0 != 0 {
+		t.Errorf("index %d is not  Element %d \n", index0, 100)
+	}
+	index1 := l.IndexOf("99")
+	if index1 != 0 {
+		t.Errorf("index %d is not  Element %s \n", index1, "99")
 	}
 }

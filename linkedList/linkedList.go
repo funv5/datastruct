@@ -118,7 +118,7 @@ func (l *LinkedList) IndexOf(element interface{}) int {
 		if current.Element == element {
 			return index
 		}
-		if current.Next == nil {
+		if current == nil {
 			return -1
 		}
 		current = current.Next
