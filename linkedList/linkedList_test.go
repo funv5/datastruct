@@ -1,59 +1,87 @@
 package linkedList
 
-import (
-	"testing"
-)
+import "testing"
 
-func TestLinkedList(t *testing.T) {
+func TestAppend(t *testing.T) {
 	l := LinkedList{}
-	l.Append("99")
-
-	if l.Length() != 1 || l.Head().Element != "99" {
-		l.Print()
-		t.Error("error at Append")
-	}
-
-	l.Insert(0, "88")
-
-	if l.Head().Element != "88" || l.Head().Next.Element != "99" {
-		l.Print()
-		t.Error("error at Insert")
-	}
-
-	if l.Remove("88") != 0 {
-		l.Print()
-		t.Error("error at Remove 88")
-	}
-	if l.Head().Element != "99" {
-		l.Print()
-		t.Error("error at Remove")
-	}
-
-	l.Remove("99")
-	if l.Length() != 0 {
-		l.Print()
-		t.Error("error at Remove All")
-	}
 
 	l.Append("99")
 	l.Append("88")
-
-	l.RemoveAt(0)
-
-	if l.Head().Element != "88" || l.Length() != 1 {
-		l.Print()
-		t.Error("error at RemoveAt")
+	current := l.Head()
+	index := 0
+	for {
+		if current == nil {
+			break
+		}
+		if index == 0 && current.Element != "99" {
+			t.Errorf("index %d Element is %s \n", index, current.Element)
+		}
+		if index == 1 && current.Element != "88" {
+			t.Errorf("index %d Element is %s \n", index, current.Element)
+		}
+		index++
+		current = current.Next
 	}
+}
 
-	if l.IndexOf("88") == -1 || l.IndexOf("99") != -1 {
-		l.Print()
-		t.Error("error at IndexOf")
+func TestInsert(t *testing.T) {
+	l := LinkedList{}
+
+	l.Insert(0, "99")
+	l.Insert(1, 88)
+	l.Insert(0, 100)
+
+	current := l.Head()
+	index := 0
+	for {
+		if current == nil {
+			break
+		}
+		if index == 0 && current.Element != 100 {
+			t.Errorf("index %d Element is %s \n", index, current.Element)
+		}
+		if index == 1 && current.Element != "99" {
+			t.Errorf("index %d Element is %s \n", index, current.Element)
+		}
+		if index == 2 && current.Element != 88 {
+			t.Errorf("index %d Element is %s \n", index, current.Element)
+		}
+		index++
+		current = current.Next
 	}
+}
 
-	l.Remove("88")
+func TestRemove(t *testing.T) {
+	l := LinkedList{}
 
-	if l.IsEmpty() != true || l.Size() != 0 {
-		l.Print()
-		t.Error("error at IsEmpty && Size")
+	l.Insert(0, "99")
+	l.Insert(1, 88)
+	l.Insert(0, 100)
+
+	if l.Remove(88) != 2 {
+		t.Errorf("remove Element %d 's index  is not %d \n", 88, 2)
+	}
+	l.Remove(100)
+
+	if l.Head().Element != "99" {
+		t.Errorf("index %d Element is %s \n", 0, l.Head().Element)
+	}
+}
+
+func TestRemoveAt(t *testing.T) {
+	l := LinkedList{}
+
+	l.Insert(0, "99")
+	l.Insert(1, 88)
+	l.Insert(0, 100)
+
+	element0 := l.RemoveAt(0)
+	if element0 != 100 {
+		t.Errorf("remove  index %d is not  Element %d 's\n", 0, element0)
+	}
+	l.Remove(100)
+
+	if l.Head().Element != "99" {
+		t.Errorf("index %d Element is %s \n", 0, l.Head().Element)
 	}
 }

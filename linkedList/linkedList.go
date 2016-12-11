@@ -39,20 +39,24 @@ func (l *LinkedList) Insert(position int, element interface{}) {
 	if position >= 0 && position <= l.length {
 		n := Node{}
 		n.Element = element
-		current := l.head
-		index := 0
 
-		if position == index {
-			n.Next = current
+		if position == 0 {
+			n.Next = l.head
 			l.head = &n
 		} else {
+			previous := l.head
+			index := 1
 			for {
-				if current.Next == nil {
+				if index == position {
 					break
 				}
-				current = current.Next
+				index++
+				previous = previous.Next
 			}
+			n.Next = previous.Next
+			previous.Next = &n
 		}
+
 		l.length++
 	}
 }
@@ -82,25 +86,28 @@ func (l *LinkedList) Remove(element interface{}) int {
 }
 
 // RemoveAt remove at position
-func (l *LinkedList) RemoveAt(position int) {
+func (l *LinkedList) RemoveAt(position int) interface{} {
 	if position >= 0 && position < l.length {
 		current := l.head
 		index := 0
 		for {
 			if position == index {
+				ele := current.Element
 				current = current.Next
 				l.length--
 				if index == 0 {
 					l.head = current
 				}
+				return ele
 			}
-			if current.Next == nil {
+			if current == nil {
 				break
 			}
 			index++
 			current = current.Next
 		}
 	}
+	return nil
 }
 
 //IndexOf ...
@@ -134,8 +141,8 @@ func (l *LinkedList) Length() int {
 }
 
 // Head ...
-func (l *LinkedList) Head() Node {
-	return *l.head
+func (l *LinkedList) Head() *Node {
+	return l.head
 }
 
 // Print print LinkedList
