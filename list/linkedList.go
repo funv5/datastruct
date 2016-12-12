@@ -1,6 +1,4 @@
-package linkedList
-
-import "fmt"
+package list
 
 // LinkedList ...
 type LinkedList struct {
@@ -145,7 +143,3 @@ func (l *LinkedList) Head() *Node {
 	return l.head
 }
 
-// Print print LinkedList
-func (l *LinkedList) Print() {
-	fmt.Printf("%#v", l)
-}
