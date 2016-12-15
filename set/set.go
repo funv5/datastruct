@@ -57,3 +57,50 @@ func (s *Set) Values() []interface{} {
 	}
 	return v
 }
+
+// Union ...
+func (s *Set) Union(otherSet *Set) *Set {
+	newSet := Set{}
+	for i, v := 0, s.Values(); i < len(v); i++ {
+		newSet.Add(v[i])
+	}
+	for i, v := 0, otherSet.Values(); i < len(v); i++ {
+		newSet.Add(v[i])
+	}
+	return &newSet
+}
+
+// Intersection ...
+func (s *Set) Intersection(otherSet *Set) *Set {
+	newSet := Set{}
+	for i, v := 0, s.Values(); i < len(v); i++ {
+		if otherSet.Has(v[i]) {
+			newSet.Add(v[i])
+		}
+	}
+	return &newSet
+}
+
+// Difference ...
+func (s *Set) Difference(otherSet *Set) *Set {
+	newSet := Set{}
+	for i, v := 0, s.Values(); i < len(v); i++ {
+		if !otherSet.Has(v[i]) {
+			newSet.Add(v[i])
+		}
+	}
+	return &newSet
+}
+
+// Subset ...
+func (s *Set) Subset(otherSet *Set) bool {
+	if s.Size() > otherSet.Size() {
+		return false
+	}
+	for i, v := 0, s.Values(); i < len(v); i++ {
+		if !otherSet.Has(v[i]) {
+			return false
+		}
+	}
+	return true
+}

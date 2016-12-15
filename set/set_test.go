@@ -90,5 +90,89 @@ func TestValues(t *testing.T) {
 			t.Errorf("map m's key %s not true \n", k)
 		}
 	}
+}
 
+func TestUnoin(t *testing.T) {
+	s1 := Set{}
+	s1.Add("99")
+	s1.Add("88")
+	s1.Add("77")
+
+	s2 := Set{}
+	s2.Add("66")
+	s2.Add("55")
+	s2.Add("77")
+
+	s3 := s1.Union(&s2)
+
+	if s3.Size() != 5 {
+		t.Errorf("s3 Size get %d expect %d", s3.Size(), 5)
+	}
+	if !s3.Has("77") {
+		t.Errorf("s3 Has 77 not get 77")
+	}
+}
+
+func TestIntersection(t *testing.T) {
+	s1 := Set{}
+	s1.Add("99")
+	s1.Add("88")
+	s1.Add("77")
+
+	s2 := Set{}
+	s2.Add("66")
+	s2.Add("55")
+	s2.Add("77")
+
+	s3 := s1.Intersection(&s2)
+
+	if s3.Size() != 1 {
+		t.Errorf("s3 Size get %d expect %d", s3.Size(), 5)
+	}
+	if !s3.Has("77") {
+		t.Errorf("s3 Has 77 not get 77")
+	}
+}
+
+func TestDifference(t *testing.T) {
+	s1 := Set{}
+	s1.Add("99")
+	s1.Add("88")
+	s1.Add("77")
+
+	s2 := Set{}
+	s2.Add("66")
+	s2.Add("55")
+	s2.Add("77")
+
+	s3 := s1.Difference(&s2)
+
+	if s3.Size() != 2 {
+		t.Errorf("s3 Size get %d expect %d", s3.Size(), 5)
+	}
+	if s3.Has("77") {
+		t.Errorf("s3 Has 77 not get 77")
+	}
+}
+
+func TestSubset(t *testing.T) {
+	s1 := Set{}
+	s1.Add("99")
+	s1.Add("88")
+
+	s2 := Set{}
+	s2.Add("99")
+	s2.Add("88")
+	s2.Add("77")
+
+	s3 := Set{}
+	s3.Add("99")
+
+	if s1.Subset(&s2) != true {
+		t.Errorf("s1 is s2's subset but not")
+	}
+
+	if s1.Subset(&s3) == true {
+		t.Errorf("s3 is not s2's subset but is")
+	}
 }
