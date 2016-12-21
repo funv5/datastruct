@@ -9,10 +9,18 @@ type HashTable struct {
 	table map[int]*list.LinkedList
 }
 
+func djb2HashCode(key string) int {
+	hash := 5381
+	for _, r := range []rune(key) {
+		hash += hash*33 + int(r)
+	}
+	return hash % 1013
+}
+
 func loseloseHashCode(key string) int {
 	hash := 0
-	for _, char := range []rune(key) {
-		hash += int(char)
+	for _, r := range []rune(key) {
+		hash += int(r)
 	}
 	return hash % 37
 }
@@ -27,7 +35,7 @@ func (h *HashTable) Put(key string, value interface{}) {
 	if h.table == nil {
 		h.table = make(map[int]*list.LinkedList)
 	}
-	position := loseloseHashCode(key)
+	position := djb2HashCode(key)
 	vp := valuePair{}
 	vp.Key = key
 	vp.Value = value
@@ -39,7 +47,7 @@ func (h *HashTable) Put(key string, value interface{}) {
 
 // Remove ...
 func (h *HashTable) Remove(key string) {
-	position := loseloseHashCode(key)
+	position := djb2HashCode(key)
 	if _, ok := h.table[position]; ok {
 		vp := valuePair{}
 		vp.Key = key
@@ -59,7 +67,7 @@ func (h *HashTable) Remove(key string) {
 
 // Get ...
 func (h *HashTable) Get(key string) interface{} {
-	position := loseloseHashCode(key)
+	position := djb2HashCode(key)
 	if _, ok := h.table[position]; ok {
 		current := h.table[position].Head()
 		for {
