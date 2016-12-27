@@ -43,6 +43,24 @@ func insertNode(node, newNode *treeNode) {
 
 // Search ...
 func (b *BinarySearchTree) Search(key interface{}) bool {
+	return searchNode(b.root, key)
+}
+
+func searchNode(node *treeNode, key interface{}) bool {
+	if node == nil {
+		return false
+	}
+	nk, _ := node.key.(int)
+	k, _ := key.(int)
+	if k < nk {
+		return searchNode(node.left, k)
+	}
+	if k > nk {
+		return searchNode(node.right, k)
+	}
+	if k == nk {
+		return true
+	}
 	return false
 }
 
@@ -62,23 +80,55 @@ func inOrderTraverse(node *treeNode, callback callbackFunc) {
 }
 
 // PreOrderTraverse ...
-func (b *BinarySearchTree) PreOrderTraverse() {
+func (b *BinarySearchTree) PreOrderTraverse(callback callbackFunc) {
+	preOrderTraverse(b.root, callback)
+}
 
+func preOrderTraverse(node *treeNode, callback callbackFunc) {
+	if node != nil {
+		callback(node.key)
+		preOrderTraverse(node.left, callback)
+		preOrderTraverse(node.right, callback)
+	}
 }
 
 // PostOrderTraverse ...
-func (b *BinarySearchTree) PostOrderTraverse() {
+func (b *BinarySearchTree) PostOrderTraverse(callback callbackFunc) {
+	postOrderTraverse(b.root, callback)
+}
 
+func postOrderTraverse(node *treeNode, callback callbackFunc) {
+	if node != nil {
+		postOrderTraverse(node.left, callback)
+		postOrderTraverse(node.right, callback)
+		callback(node.key)
+	}
 }
 
 // Min ...
 func (b *BinarySearchTree) Min() interface{} {
-	return nil
+	current := b.root
+	parrent := current
+	for {
+		if current == nil {
+			return parrent.key
+		}
+		parrent = current
+		current = current.left
+	}
 }
 
 // Max ...
 func (b *BinarySearchTree) Max() interface{} {
-	return nil
+	current := b.root
+	parrent := current
+	for {
+		if current == nil {
+			return parrent.key
+		}
+		parrent = current
+		current = current.right
+	}
 }
 
 // Remove ...
